@@ -44,6 +44,7 @@ public class Transaction {
     @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;
 
+    private String failureReason;
 
 
 }

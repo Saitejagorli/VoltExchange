@@ -20,6 +20,7 @@ import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 @SpringBootTest
 class VoltExchangeApplicationTests {
 
