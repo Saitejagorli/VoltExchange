@@ -26,11 +26,11 @@ public class TransactionService {
     @Transactional
     public Transaction transfer(User sender, TransactionRequest transactionRequest) {
 
-        Wallet senderWallet = walletRepository.findByUser_Id(sender.getId()).orElseThrow(() -> new WalletException("Sender wallet not found", HttpStatus.NOT_FOUND));
+        Wallet senderWallet = walletRepository.findByUserIdWithLock(sender.getId()).orElseThrow(() -> new WalletException("Sender wallet not found", HttpStatus.NOT_FOUND));
 
 
         User receiver = userService.getUserByEmail(transactionRequest.receiverEmail());
-        Wallet receiverWallet = walletRepository.findByUser_Id(receiver.getId()).orElseThrow(() -> new WalletException("Receiver wallet not found", HttpStatus.NOT_FOUND));
+        Wallet receiverWallet = walletRepository.findByUserIdWithLock(receiver.getId()).orElseThrow(() -> new WalletException("Receiver wallet not found", HttpStatus.NOT_FOUND));
 
         if (senderWallet.getId().equals(receiverWallet.getId())) {
             throw new WalletException("Cannot transfer to your own wallet", HttpStatus.BAD_REQUEST);
