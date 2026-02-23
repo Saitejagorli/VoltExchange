@@ -1,5 +1,6 @@
 package com.saicodes.VoltExchange.security;
 
+import com.saicodes.VoltExchange.constants.Constants;
 import com.saicodes.VoltExchange.filters.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +30,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/").hasAuthority("ADMIN")
-                        .anyRequest().permitAll())
+                        .requestMatchers(Constants.Security.PUBLIC_ENDPOINTS).permitAll()
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
