@@ -6,6 +6,7 @@ import com.saicodes.VoltExchange.exceptions.WalletException;
 import com.saicodes.VoltExchange.repositories.WalletRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class WalletService {
         walletRepository.save(wallet);
     }
 
+    @Cacheable(value = "wallets", key = "#user.id")
     public Optional<Wallet> getWallet(User user) {
         return walletRepository.findByUser_Id(user.getId());
     }
