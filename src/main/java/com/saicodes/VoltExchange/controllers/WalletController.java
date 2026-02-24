@@ -11,6 +11,7 @@ import com.saicodes.VoltExchange.entities.User;
 import com.saicodes.VoltExchange.entities.Wallet;
 import com.saicodes.VoltExchange.enums.TransactionStatus;
 import com.saicodes.VoltExchange.exceptions.WalletException;
+import com.saicodes.VoltExchange.services.TransactionFacade;
 import com.saicodes.VoltExchange.services.TransactionService;
 import com.saicodes.VoltExchange.services.WalletService;
 import com.saicodes.VoltExchange.util.SecurityUtils;
@@ -27,6 +28,7 @@ public class WalletController {
     private final SecurityUtils securityUtils;
     private final WalletService walletService;
     private final TransactionService transactionService;
+    private final TransactionFacade transactionFacade;
 
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<WalletResponse>> getWallet() {
@@ -45,7 +47,7 @@ public class WalletController {
     @PostMapping("/transfer")
     public ResponseEntity<ApiResponse<TransactionResponse>> transferAmount(@RequestBody @Valid TransactionRequest transactionRequest){
         User user = securityUtils.getCurrentUser();
-        Transaction transaction = transactionService.transfer(user, transactionRequest);
+        Transaction transaction = transactionFacade.transfer(user, transactionRequest);
         if(transaction.getStatus() == TransactionStatus.FAILED){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.success("Transaction failed", TransactionResponse.from(transaction)));
         }
