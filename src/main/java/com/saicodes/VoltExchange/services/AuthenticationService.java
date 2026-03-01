@@ -35,7 +35,7 @@ public class AuthenticationService {
     private final RefreshTokenService refreshTokenService;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    @Value("${refreshtoken.expiration}")
+    @Value("${refreshtoken.expiration.seconds}")
     private Long refreshTokenExpiration;
 
     public LoginResponse register(RegistrationRequest request, HttpServletResponse response) {
