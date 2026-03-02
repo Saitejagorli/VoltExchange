@@ -44,6 +44,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error(e.getMessage(), null));
     }
 
+    @ExceptionHandler(WalletException.class)
+    public ResponseEntity<ApiResponse<Void>> handleWalletException(WalletException e) {
+        return ResponseEntity.status(e.getStatus()).body(ApiResponse.error(e.getMessage(), null));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ApiResponse.error(e.getMessage(), null));
