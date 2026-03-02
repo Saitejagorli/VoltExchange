@@ -6,6 +6,7 @@ import com.saicodes.VoltExchange.dto.RegistrationRequest;
 import com.saicodes.VoltExchange.entities.RefreshToken;
 import com.saicodes.VoltExchange.entities.User;
 import com.saicodes.VoltExchange.exceptions.RefreshTokenException;
+import com.saicodes.VoltExchange.repositories.RefreshTokenRepository;
 import com.saicodes.VoltExchange.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ public class AuthenticationService {
     private final UserService userService;
     private final WalletService walletService;
     private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Value("${refreshtoken.expiration}")
     private Long refreshTokenExpiration;
@@ -86,6 +88,7 @@ public class AuthenticationService {
 
     //private helpers
     private String createRefreshToken(User user) {
+
         String token = UUID.randomUUID().toString();
 
         RefreshToken refreshToken = RefreshToken.builder()

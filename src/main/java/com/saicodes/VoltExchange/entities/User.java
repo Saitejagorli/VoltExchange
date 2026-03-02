@@ -1,5 +1,6 @@
 package com.saicodes.VoltExchange.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.saicodes.VoltExchange.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,6 +32,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
@@ -45,4 +48,8 @@ public class User {
     @UpdateTimestamp
     @Column(nullable =false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<RefreshToken> refreshTokens;
 }
