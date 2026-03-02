@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/wallets")
+@RequestMapping("/api/v1/users/wallets")
 public class WalletController {
     private final SecurityUtils securityUtils;
     private final WalletService walletService;

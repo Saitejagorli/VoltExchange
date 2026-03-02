@@ -1,6 +1,7 @@
 package com.saicodes.VoltExchange.security;
 
 import com.saicodes.VoltExchange.constants.Constants;
+import com.saicodes.VoltExchange.enums.Role;
 import com.saicodes.VoltExchange.filters.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(Constants.Security.PUBLIC_ENDPOINTS).permitAll()
+                        .requestMatchers("/api/v1/wallets/**").hasAuthority(Role.USER.toString())
+                        .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ADMIN.toString())
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
