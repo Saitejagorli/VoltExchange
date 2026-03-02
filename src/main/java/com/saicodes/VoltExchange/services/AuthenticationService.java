@@ -5,6 +5,7 @@ import com.saicodes.VoltExchange.dto.LoginResponse;
 import com.saicodes.VoltExchange.dto.RegistrationRequest;
 import com.saicodes.VoltExchange.entities.RefreshToken;
 import com.saicodes.VoltExchange.entities.User;
+import com.saicodes.VoltExchange.enums.Role;
 import com.saicodes.VoltExchange.exceptions.RefreshTokenException;
 import com.saicodes.VoltExchange.repositories.RefreshTokenRepository;
 import com.saicodes.VoltExchange.util.JwtUtil;
@@ -35,12 +36,14 @@ public class AuthenticationService {
     private final RefreshTokenService refreshTokenService;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    @Value("${refreshtoken.expiration}")
+    @Value("${refreshtoken.expiration.seconds}")
     private Long refreshTokenExpiration;
 
     public LoginResponse register(RegistrationRequest request, HttpServletResponse response) {
         User user = userService.saveUser(request);
-        walletService.createWallet(user);
+        if(user.getRole() == Role.USER){
+            walletService.createWallet(user);
+        }
         return issueTokens(user, response);
     }
 
