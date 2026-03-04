@@ -20,7 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class AdminService {
 
-    private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();;
+    private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
     private final TransactionRepository transactionRepository;
 
     public AdminService(TransactionRepository transactionRepository) {

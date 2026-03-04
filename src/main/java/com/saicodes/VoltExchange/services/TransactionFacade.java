@@ -7,7 +7,6 @@ import com.saicodes.VoltExchange.events.TransactionEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Service;
 
 @Service

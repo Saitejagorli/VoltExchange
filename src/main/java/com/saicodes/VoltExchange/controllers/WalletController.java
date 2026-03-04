@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users/wallets")
+@RequestMapping("/api/v1/wallets")
 public class WalletController {
     private final SecurityUtils securityUtils;
     private final WalletService walletService;
@@ -49,7 +49,7 @@ public class WalletController {
         User user = securityUtils.getCurrentUser();
         Transaction transaction = transactionFacade.transfer(user, transactionRequest);
         if(transaction.getStatus() == TransactionStatus.FAILED){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.success("Transaction failed", TransactionResponse.from(transaction)));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error("Transaction failed", TransactionResponse.from(transaction)));
         }
         return ResponseEntity.ok().body(ApiResponse.success("Amount transferred Successfully",TransactionResponse.from(transaction)));
     }

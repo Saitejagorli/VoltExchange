@@ -55,7 +55,7 @@ public class RateLimitingInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        response.addHeader("X-Ratelimit-Limit", String.valueOf(transferCapacity));
+        response.addHeader("X-RateLimit-Limit", String.valueOf(transferCapacity));
         response.addHeader("X-RateLimit-Retry-After", String.valueOf(probe.getNanosToWaitForRefill()/1_000_000_000));
 
         response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());

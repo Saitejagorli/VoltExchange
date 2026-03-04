@@ -22,7 +22,7 @@ public class AdminController {
     }
 
     @GetMapping("/transactions")
-    public ResponseEntity<ApiResponse<PageResponse<TransactionResponse>>> getTransactions(@RequestParam int page, @RequestParam int size, @RequestParam boolean asc) {
+    public ResponseEntity<ApiResponse<PageResponse<TransactionResponse>>> getTransactions(@RequestParam int page , @RequestParam int size, @RequestParam boolean asc) {
         System.out.println("getTransactions");
         PageResponse<TransactionResponse> pageResponse = PageResponse.from(adminService.findTransactions(page, size, asc).map(TransactionResponse::from));
         return ResponseEntity.ok().body(ApiResponse.success("Data fetched successfully", pageResponse));
