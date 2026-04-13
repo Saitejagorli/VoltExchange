@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    restart: on-failure
+    container_name: voltexchange
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - TRANSFER_TOKEN_CAPACITY=${TRANSFER_TOKEN_CAPACITY}
+      - TRANSFER_REFILL_TIME=${TRANSFER_REFILL_TIME}
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: voltexchange
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+volumes:
+  mysql_data:
